@@ -10,16 +10,17 @@ use Livewire\Component;
 
 class ListPoll extends Component
 {
-    public function vote(Option $option) {
+    public function vote(Option $option)
+    {
         $user = auth()->user();
 
         $isVoted = Vote::query()->where('user_id', $user->id)->whereIn('option_id', $option->poll->options->pluck('id')->toArray())->exists();
 
         if ($isVoted) {
-            $option->votes()->delete();
+            $option->votes()->where('user_id', $user->id)->delete();
         } else {
             $option->votes()->create([
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
             ]);
         }
     }
@@ -30,7 +31,7 @@ class ListPoll extends Component
         $polls = Poll::with('options.votes')->latest()->get();
 
         return view('livewire.list-poll', [
-            'polls' => $polls
+            'polls' => $polls,
         ]);
     }
 }

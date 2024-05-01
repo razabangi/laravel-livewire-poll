@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    return to_route('login');
+});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -24,6 +26,6 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('/polls', PollCreate::class)->middleware('auth');
+Route::get('/polls', PollCreate::class)->middleware('auth')->name('polls');
 
 require __DIR__.'/auth.php';
