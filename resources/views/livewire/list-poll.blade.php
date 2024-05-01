@@ -4,8 +4,8 @@
         <ul>
             @foreach ($poll->options as $option)
                 <li @class([
-                    'bg-stone-300 bg-stone-300 p-2 my-1 rounded-sm',
-                    'bg-green-500' => $option->votes()->pluck('user_id')->contains(auth()->user()->id)
+                    'bg-slate-300 p-2 my-1 rounded-sm cursor-pointer',
+                    'bg-gradient-to-r from-green-300 to-green-100' => $option->votes()->pluck('user_id')->contains(auth()->user()->id)
                 ])>
                     <div class="flex justify-between" wire:click="vote({{ $option }})">
                         <span>{{ $option->title }}</span>
